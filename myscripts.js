@@ -2,54 +2,66 @@ function getComputerChoice() {
     let computerChoice = ["rock", "paper", "scissor"]
     
     let random = computerChoice[Math.floor(Math.random()*computerChoice.length)]
-    console.log(random)
+    console.log(random + " computer choice")
     return random
 }
 
 
-function playRound(playerSelection, computerSelection) {
-    if ((computerSelection === "rock" && playerSelection === "rock") || (computerSelection === "scissor" && playerSelection === "scissor") || (computerSelection === "paper" && playerSelection === "paper")) {
+function playRound(playerChoice, computerSelection) {
+    if ((computerSelection === "rock" && playerChoice === "rock") || (computerSelection === "scissor" && playerChoice === "scissor") || (computerSelection === "paper" && playerChoice === "paper")) {
         return "Draw"
-    } else if ((computerSelection === "paper" && playerSelection === "rock") || (computerSelection === "rock" && playerSelection === "scissor") || (computerSelection === "scissor" && playerSelection === "paper")) {
+    } else if ((computerSelection === "paper" && playerChoice === "rock") || (computerSelection === "rock" && playerChoice === "scissor") || (computerSelection === "scissor" && playerChoice === "paper")) {
         return "You lose this round!"
-    } else if ((computerSelection === "scissor" && playerSelection === "rock") || (computerSelection === "paper" && playerSelection === "scissor") || (computerSelection === "rock" && playerSelection === "paper")) {
+    } else if ((computerSelection === "scissor" && playerChoice === "rock") || (computerSelection === "paper" && playerChoice === "scissor") || (computerSelection === "rock" && playerChoice === "paper")) {
         return "You win this round!"
     }
-  }
+}
    
-  let playerSelection = getPlayerChoice();
-  let computerSelection = getComputerChoice();
-  let player = 0;
-  let computer = 0;
 
-function getPlayerChoice() {
-    let playerChoice = prompt("Pick one | Rock | Paper | Scissor").toLowerCase();
-    console.log(playerChoice)
-    return playerChoice
+function game(playerChoice) {
+    const title = document.getElementById('title');
+    let roundResult = playRound(playerChoice, getComputerChoice());
+    if (roundResult == "Draw") {
+        title.textContent = "Draw"
+    } else if (roundResult == "You lose this round!") {
+        title.textContent = "You lose this round!"
+        computer = computer + 1
+    } else if (roundResult == "You win this round!"){
+        title.textContent = "You win this round!"
+        player = player + 1 
+    }
+    console.log(computer + " computer score")
+    console.log(player +" player score")
+    if (player === 5) {
+        title.textContent = "-- Player Wins --"
+        btns.forEach(elem => {
+            elem.disabled = true
+        })
+
+    }else if (computer === 5) {
+        title.textContent = "-- Computer Wins --"
+        btns.forEach(elem => {
+            elem.disabled = true
+        })
+    }
 }
 
-
-  function game() {
-    for (let i = 0; i < 5; i++) {
-        console.log(i)
-        let computerchoiceRound = playRound(getPlayerChoice(), getComputerChoice());
-        if (computerchoiceRound == "Draw") {
-        } else if (computerchoiceRound == "You lose this round!") {
-            computer = computer + 1
-        } else if (computerchoiceRound == "You win this round!"){
-            player = player + 1
-        }
-    }
-    console.log(computer)
-    console.log(player)
+    let player = 0;
+    let computer = 0;
+    const btns = document.querySelectorAll("button");
+    console.log(btns)
+        btns.forEach((button) => {
+            button.addEventListener('click', () => {
+                console.log(button.textContent.toLowerCase() + " player choice")
+                game(button.textContent.toLowerCase());
+            });
+        });
+   /* const title = document.getElementById('title');
     if (computer > player) {
-        return "-- Computer Wins --"
+        title.textContent = "-- Computer Wins --"
+        
     } if (player > computer) {
-        return "-- Player Wins --"
+        title.textContent = "-- Player Wins --"
     } else {
-        return "-- Draw --"
-    }
-
-  }
-
-  console.log(game())
+        title.textContent = "-- Draw --"
+    }*/
